@@ -3,48 +3,34 @@ const express = require('express');
 const app = express();
 
 
-app.get('/user',(req, res)=>{
-    res.send({firstName:'Rahul', lastName:'Chatterjee'});
-});
+app.use('/user',[
+    (req, res, next)=>{
+    console.log('1st request handler');
+    //res.send('1st respoense');
+    next();
+},
+(req, res, next)=>{
+    console.log('2nd request handler');
+    //res.send('2nd response');
+    next();
+},
+[(req, res, next)=>{
+    console.log('3rd request handler');
+    //res.send('3rd response');
+    next();
+},
+(req, res, next)=>{
+    console.log('4th request handler');
+    //res.send('4th response');
+    next();
+}],
+(req, res, next)=>{
+    console.log('5th request handler');
+    res.send('5th response');
+}]);
 
-app.post('/user',(req, res) =>{
-    // inserting the user to DB
-    res.send('User created successfully');
-});
 
-app.put('/user',(req, res) =>{
-    // updating the user in DB
-    res.send('User updated successfully');
-});
 
-app.delete('/user',(req, res) =>{
-    // deleting the user from DB
-    res.send('User deleted successfully');
-});
-
-// Using route parameters
-app.post('/user/:userId/:passsword',(req, res) =>{
-    // inserting the user to DB
-    console.log(req.params)
-    res.send('User created successfully');
-});
-
-// Using query parameters
-app.post('/user',(req, res) =>{
-    // inserting the user to DB
-    console.log(req.query)
-    res.send('User created successfully');
-});
-
-// Using regular expressions in routes
-app.use(/.*ab$/,(req, res)=>{
-    res.send('Hii there, how are you Mr. Test');
-});
-
-app.get(/.*fly$/, (req, res) => {
-  res.send('/.*fly$/')
-});
-
-app.listen(3000,()=>{
-    console.log('Server is running on port 3000...');
+app.listen(3000, ()=>{
+    console.log('Server is running on port 3000');
 });
