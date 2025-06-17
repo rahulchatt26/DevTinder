@@ -1,33 +1,26 @@
 const express = require('express');
+const {adminAuth, userAuth} = require('./middlewares/auth');
 
 const app = express();
 
+app.use('/admin',adminAuth);
+app.use('/user', userAuth);
 
-app.use('/user',[
-    (req, res, next)=>{
-    console.log('1st request handler');
-    //res.send('1st respoense');
-    next();
-},
-(req, res, next)=>{
-    console.log('2nd request handler');
-    //res.send('2nd response');
-    next();
-},
-[(req, res, next)=>{
-    console.log('3rd request handler');
-    //res.send('3rd response');
-    next();
-},
-(req, res, next)=>{
-    console.log('4th request handler');
-    //res.send('4th response');
-    next();
-}],
-(req, res, next)=>{
-    console.log('5th request handler');
-    res.send('5th response');
-}]);
+app.get('/user/profile', (req, res)=>{
+    res.send('User profile data sent');
+});
+
+
+app.use('/admin/getAllUser',(req, res, next)=>{
+    // Logic for fetch all users data
+    res.send('All users data send');
+});
+
+app.use('/admin/deleteUser',(req, res)=>{
+    console.log('Delete user request received');
+    // Logic to delete a user data
+    res.send('User data deleted successfully');
+});
 
 
 
